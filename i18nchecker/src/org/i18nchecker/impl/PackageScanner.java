@@ -36,7 +36,7 @@ class PackageScanner {
 
     /** Default bundles other than the primary bundle. */
     private Set<PrimaryResourceBundleModel> otherBundles;
-    
+
     /** Translations */
     private Set<TranslatedResourceBundleModel> translatedBundles;
 
@@ -48,13 +48,17 @@ class PackageScanner {
 
     private String logger = null;
     private List<String> loggerMethods = null;
-    
+
     public PackageScanner(File packageDir, String moduleDirName) throws IOException {
         this.packageDir = packageDir;
         this.sources = new TreeMap<String, JavaSourceModel>();
         this.translatedBundles = new HashSet<TranslatedResourceBundleModel>();
         this.otherBundles = new HashSet<PrimaryResourceBundleModel>();
-        this.simpleName = packageDir.getCanonicalPath().substring(moduleDirName.length()).replace(File.separator, "/");
+        if (moduleDirName.length() <= packageDir.getCanonicalPath().length()) {
+            this.simpleName = packageDir.getCanonicalPath().substring(moduleDirName.length()).replace(File.separator, "/");
+        } else {
+            this.simpleName = "";
+        }
     }
 
     /**
